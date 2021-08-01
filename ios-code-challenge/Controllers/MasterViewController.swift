@@ -26,7 +26,21 @@ class MasterViewController: UITableViewController {
         
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
-        
+        getBusinesses()
+//        let query = YLPSearchQuery(location: "5550 West Executive Dr. Tampa, FL 33609")
+//        AFYelpAPIClient.shared().search(with: query, completionHandler: { [weak self] (searchResult, error) in
+//            guard let strongSelf = self,
+//                let dataSource = strongSelf.dataSource,
+//                let businesses = searchResult?.businesses else {
+//                    return
+//            }
+//            dataSource.setObjects(businesses)
+//            strongSelf.tableView.reloadData()
+//        })
+    }
+    
+    // yves
+    private func getBusinesses() {
         let query = YLPSearchQuery(location: "5550 West Executive Dr. Tampa, FL 33609")
         AFYelpAPIClient.shared().search(with: query, completionHandler: { [weak self] (searchResult, error) in
             guard let strongSelf = self,
@@ -36,6 +50,7 @@ class MasterViewController: UITableViewController {
             }
             dataSource.setObjects(businesses)
             strongSelf.tableView.reloadData()
+
         })
     }
     
