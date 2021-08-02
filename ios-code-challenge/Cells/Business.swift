@@ -8,11 +8,27 @@
 
 import Foundation
 
+struct BusinessesTotal: Codable {
+    let businesses: [Business]
+}
+
 struct Business: Codable {
     let name: String
-    let rating: String
-    let reviewCount: Int
+    let rating: Double
+    let review_count: Int
     let distance: Double
-    let thumbnailString: String
-    let categories: [String]
+    let image_url: String
+    let categories: [Categories]
+}
+
+struct Categories: Codable {
+    let title: String
+}
+
+extension Data {
+    func printJSON() {
+        if let JSONString = String(data: self, encoding: String.Encoding.utf8) {
+            print(JSONString)
+        }
+    }
 }
