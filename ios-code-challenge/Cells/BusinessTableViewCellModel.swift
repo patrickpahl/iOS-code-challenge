@@ -13,19 +13,30 @@ class BusinessTableViewCellModel {
     var business: Business
     
     var ratingText: String {
-        return "Rating: TEST" //todo
+        return "Rating: \(business.rating)"
     }
     
     var reviewCountText: String {
-        return "Review Count: TEST" //todo
+        return "Review Count: \(business.review_count)"
     }
     
     var distanceText: String {
-        return "Distance: TEST" //todo
+        let distance = Int(business.distance)
+        return "Distance: \(distance)"
     }
     
     var categoriesText: String {
-        return "Categories: TEST" //todo
+        var text = ""
+        for category in business.categories {
+            let title = category.title
+            text = title + ","
+        }
+        
+        if text.last == "," {
+            text.removeLast()
+        }
+        
+        return "Categories: \(text)"
     }
     
     init(business: Business) {

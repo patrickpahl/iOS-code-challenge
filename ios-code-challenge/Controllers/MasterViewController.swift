@@ -16,43 +16,44 @@ import UIKit
 class MasterViewController: UITableViewController {
     
     var detailViewController: DetailViewController?
-    
-    lazy private var dataSource: NXTDataSource? = {
-        guard let dataSource = NXTDataSource(objects: nil) else { return nil }
-        dataSource.tableViewDidReceiveData = { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.tableView.reloadData()
-        }
-        return dataSource
-    }()
+    var businesses: [Business]?
+    var businessCellModels: [BusinessTableViewCellModel]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.dataSource = dataSource
-        tableView.delegate = dataSource
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(BusinessTableViewCell.self, forCellReuseIdentifier: BusinessTableViewCell.identifier)
         
         getBusinesses(atAddress: "5550 West Executive Dr. Tampa, FL 33609") { result in
             switch result {
-            case .success(let businsses):
-                for business in businsses {
-                    print(business.name)
-                }
+            case .success(let businesses):
+                self.businesses = businesses
+                self.createCellModels()
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    private func createCellModels() {
+        businessCellModels = []
+        guard let businesses = self.businesses else {
+            print("No Businesses")
+            return
+        }
         
-//        let query = YLPSearchQuery(location: "5550 West Executive Dr. Tampa, FL 33609")
-//        AFYelpAPIClient.shared().search(with: query, completionHandler: { [weak self] (searchResult, error) in
-//            guard let strongSelf = self,
-//                let dataSource = strongSelf.dataSource,
-//                let businesses = searchResult?.businesses else {
-//                    return
-//            }
-//            dataSource.setObjects(businesses)
-//            strongSelf.tableView.reloadData()
-//        })
+        businessCellModels = businesses.map({ BusinessTableViewCellModel(business: $0) })
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func cellModel(index: Int) -> BusinessTableViewCellModel? {
+        guard let cellModels = businessCellModels else { return nil }
+        
+        return cellModels[index]
     }
     
     // yves
@@ -85,7 +86,6 @@ class MasterViewController: UITableViewController {
                 return
             }
             
-            data.printJSON()
             var apiResponse: BusinessesTotal?
             
             do {
@@ -126,5 +126,23 @@ class MasterViewController: UITableViewController {
 //            controller.navigationItem.leftItemsSupplementBackButton = true
         }
     }
+    
+}
 
+extension MasterViewController {
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return businessCellModels?.count ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BusinessTableViewCell.identifier) as? BusinessTableViewCell,
+              let cellModel = cellModel(index: indexPath.row) else {
+            return UITableViewCell()
+        }
+        
+        cell.configure(with: cellModel)
+        return cell
+    }
+    
 }

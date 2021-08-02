@@ -19,16 +19,9 @@ struct Business: Codable {
     let distance: Double
     let image_url: String
     let categories: [Categories]
+    let price: String
 }
 
 struct Categories: Codable {
     let title: String
-}
-
-extension Data {
-    func printJSON() {
-        if let JSONString = String(data: self, encoding: String.Encoding.utf8) {
-            print(JSONString)
-        }
-    }
 }

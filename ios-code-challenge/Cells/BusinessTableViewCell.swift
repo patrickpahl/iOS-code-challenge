@@ -15,7 +15,6 @@ class BusinessTableViewCell: UITableViewCell {
     lazy var thumbnailImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = nil //todo
         return view
     }()
     
@@ -23,7 +22,7 @@ class BusinessTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 10)
         return label
     }()
     
@@ -31,7 +30,7 @@ class BusinessTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 10)
         return label
     }()
     
@@ -39,7 +38,7 @@ class BusinessTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 10)
         return label
     }()
     
@@ -47,7 +46,7 @@ class BusinessTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 10)
         return label
     }()
     
@@ -55,7 +54,7 @@ class BusinessTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 10)
         return label
     }()
     
@@ -75,6 +74,7 @@ class BusinessTableViewCell: UITableViewCell {
         reviewCountLabel.text = cellModel.reviewCountText
         distanceLabel.text = cellModel.distanceText
         categoriesLabel.text = cellModel.categoriesText
+        thumbnailImageView.imageFromServerURL(urlString: cellModel.business.image_url)
     }
     
     private func setUpView() {
@@ -96,7 +96,7 @@ class BusinessTableViewCell: UITableViewCell {
             nameLabel.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor, constant: 5),
             
             ratingLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            ratingLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
+            ratingLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 1),
             
             reviewCountLabel.leadingAnchor.constraint(equalTo: ratingLabel.trailingAnchor, constant: 5),
             reviewCountLabel.topAnchor.constraint(equalTo: ratingLabel.topAnchor),
@@ -105,7 +105,7 @@ class BusinessTableViewCell: UITableViewCell {
             distanceLabel.topAnchor.constraint(equalTo: reviewCountLabel.topAnchor),
             
             categoriesLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            categoriesLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 5),
+            categoriesLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 1),
             categoriesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ]
 
