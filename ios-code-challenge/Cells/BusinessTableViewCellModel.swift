@@ -39,6 +39,10 @@ class BusinessTableViewCellModel {
         return "Categories: \(text)"
     }
     
+    var priceText: String {
+        return "Price: \(business.price)"
+    }
+    
     init(business: Business) {
         self.business = business
     }

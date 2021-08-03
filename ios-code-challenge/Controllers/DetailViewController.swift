@@ -10,10 +10,18 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var categoriesLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var reviewCountLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    
     lazy private var favoriteBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "Star-Outline"), style: .plain, target: self, action: #selector(onFavoriteBarButtonSelected(_:)))
 
     @objc var detailItem: NSDate?
+    var businessModel: BusinessTableViewCellModel?
+    //var businessModel: BusinessTableViewCellModel?
     
     private var _favorite: Bool = false
     private var isFavorite: Bool {
@@ -30,13 +38,22 @@ class DetailViewController: UIViewController {
     }
     
     private func configureView() {
-        guard let detailItem = detailItem else { return }
-        detailDescriptionLabel.text = detailItem.description
+        guard let businessModel = businessModel else { return }
+        
+        nameLabel.text = businessModel.business.name
+        categoriesLabel.text = businessModel.categoriesText
+        ratingLabel.text = businessModel.ratingText
+        reviewCountLabel.text = businessModel.reviewCountText
+        priceLabel.text = businessModel.priceText
+        imageView.imageFromServerURL(urlString: businessModel.business.image_url)
     }
     
-    func setDetailItem(newDetailItem: NSDate) {
-        guard detailItem != newDetailItem else { return }
+    func setDetailItem(newBusinessModel: BusinessTableViewCellModel, newDetailItem: NSDate) {
+        //guard businessModel?.business.name ?? "" != newBusinessModel.business.name else { return }
+        guard newDetailItem != detailItem else { return }
+        
         detailItem = newDetailItem
+        businessModel = newBusinessModel
         configureView()
     }
     

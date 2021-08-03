@@ -18,6 +18,7 @@ class MasterViewController: UITableViewController {
     var detailViewController: DetailViewController?
     var businesses: [Business]?
     var businessCellModels: [BusinessTableViewCellModel]?
+    var selectedCellModel: BusinessTableViewCellModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,16 +116,37 @@ class MasterViewController: UITableViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetail" {
-//            guard let indexPath = tableView.indexPathForSelectedRow,
-//                let controller = segue.destination as? DetailViewController else {
-//                return
-//            }
-//            let object = objects[indexPath.row]
-//            controller.setDetailItem(newDetailItem: object)
-//            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-//            controller.navigationItem.leftItemsSupplementBackButton = true
-        }
+//        if segue.identifier == "showDetail" {
+//            guard let detailViewController = segue.destination as? DetailViewController,
+//                  let selectedCellModel = selectedCellModel else { return }
+//
+//            detailViewController.businessModel = selectedCellModel
+//            detailViewController.setDetailItem(newDetailItem: Date())
+//            detailViewController.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+//            detailViewController.navigationItem.leftItemsSupplementBackButton = true
+//        }
+        
+            if segue.identifier == "showDetail" {
+                guard let indexPath = tableView.indexPathForSelectedRow,
+                      let controller = segue.destination as? DetailViewController,
+                      let cellModels = businessCellModels else {
+                    return
+                }
+                
+                let object = cellModels[indexPath.row]
+                controller.setDetailItem(newBusinessModel: object, newDetailItem: NSDate())
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+                controller.navigationItem.leftItemsSupplementBackButton = true
+            }
+        
+        //            guard let indexPath = tableView.indexPathForSelectedRow,
+        //                let controller = segue.destination as? DetailViewController else {
+        //                return
+        //            }
+        //            let object = objects[indexPath.row]
+        //            controller.setDetailItem(newDetailItem: object)
+        //            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+        //            controller.navigationItem.leftItemsSupplementBackButton = true
     }
     
 }
@@ -143,6 +165,13 @@ extension MasterViewController {
         
         cell.configure(with: cellModel)
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cellModels = businessCellModels else { return }
+        
+        selectedCellModel = cellModels[indexPath.row]
+        performSegue(withIdentifier: "showDetail", sender: self)
     }
     
 }

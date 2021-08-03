@@ -90,7 +90,6 @@ class BusinessTableViewCell: UITableViewCell {
             thumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             thumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             thumbnailImageView.widthAnchor.constraint(equalToConstant: 50),
-            thumbnailImageView.heightAnchor.constraint(equalToConstant: 50),
             
             nameLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 10),
             nameLabel.topAnchor.constraint(equalTo: thumbnailImageView.topAnchor, constant: 5),
